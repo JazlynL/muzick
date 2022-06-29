@@ -1,9 +1,10 @@
 package com.careerdevs.muzick.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Listener {
@@ -12,9 +13,16 @@ public class Listener {
     // influence from other tables that will be created
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // using this annotation to require a not null value
+    @NotNull
     private String name;
     private Integer age;
     // later we will add genre and user
+
+    @OneToMany(mappedBy = "listener",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Note> notes;
 
    // jpa needs a default constructor
     public Listener() {
